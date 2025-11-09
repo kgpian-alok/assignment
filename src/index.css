@@ -1,0 +1,311 @@
+/* src/index.css */
+
+:root {
+  --font: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica,
+    Arial, sans-serif;
+  --bg-color: #ffffff;
+  --border-color: #eaedf0;
+  --text-color: #111827;
+  /* Darker text */
+  --text-color-light: #6b7280;
+  /* Lighter text (for phone, headers) */
+  --hover-bg: #f9fafb;
+  --loader-color: #3182ce;
+  --count-bg: #f3f4f6;
+  --count-text: #374151;
+}
+
+body {
+  font-family: var(--font);
+  background-color: var(--bg-color);
+  color: var(--text-color);
+  margin: 0;
+  padding: 0;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Header and Main Layout */
+.app-header {
+  padding: 1rem 2.5rem;
+  border-bottom: 1px solid var(--border-color);
+}
+
+.logo {
+  height: 24px;
+}
+
+main {
+  width: 95%;
+  max-width: 1600px;
+  margin: 1.5rem auto;
+}
+
+.title-bar {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-bottom: 1.5rem;
+}
+
+.title-bar h2 {
+  font-size: 1.5rem;
+  font-weight: 600;
+  margin: 0;
+}
+
+.customer-count {
+  font-size: 0.75rem;
+  font-weight: 500;
+  padding: 0.125rem 0.5rem;
+  background-color: var(--count-bg);
+  color: var(--count-text);
+  border-radius: 4px;
+}
+
+/* Controls: Search and Filters */
+.controls-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1rem;
+}
+
+.search-wrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.search-icon {
+  position: absolute;
+  left: 1rem;
+  width: 16px;
+  height: 16px;
+  opacity: 0.5;
+}
+
+.search-input {
+  font-size: 0.9rem;
+  padding: 0.75rem 1rem 0.75rem 2.75rem;
+  /* Left padding for icon */
+  border: 1px solid var(--border-color);
+  border-radius: 6px;
+  width: 300px;
+  background-color: #f9fafb;
+  color: var(--text-color);
+}
+
+.search-input:focus {
+  outline: 2px solid var(--loader-color);
+  border-color: transparent;
+  background-color: white;
+}
+
+.filter-wrapper {
+  position: relative;
+}
+
+.filter-button {
+  font-size: 0.9rem;
+  font-weight: 500;
+  padding: 0.75rem 1rem;
+  border: 1px solid var(--border-color);
+  border-radius: 6px;
+  background: #ffffff;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.filter-button img {
+  width: 14px;
+}
+
+.filter-button:hover {
+  background: var(--hover-bg);
+}
+
+.filter-dropdown {
+  position: absolute;
+  top: 110%;
+  right: 0;
+  background: white;
+  border: 1px solid var(--border-color);
+  border-radius: 6px;
+  box-shadow: 0 4px 12px 0 rgba(0, 0, 0, 0.05);
+  padding: 0.5rem;
+  z-index: 10;
+  width: 180px;
+}
+
+.filter-item {
+  padding: 0.5rem 0.75rem;
+  border-radius: 4px;
+  font-size: 0.9rem;
+  cursor: pointer;
+}
+
+.filter-item:hover {
+  background: var(--hover-bg);
+}
+
+/* Loader */
+.loader {
+  font-size: 1.2rem;
+  color: var(--loader-color);
+  text-align: center;
+  padding: 2rem;
+  font-weight: 500;
+}
+
+.loader.processing {
+  position: fixed;
+  top: 1rem;
+  left: 50%;
+  transform: translateX(-50%);
+  background: white;
+  padding: 0.5rem 1rem;
+  border-radius: 6px;
+  box-shadow: 0 4px 12px 0 rgba(0, 0, 0, 0.1);
+  z-index: 100;
+}
+
+/* Table Container */
+.table-container {
+  border: 1px solid var(--border-color);
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+/* Table Row (Shared by Header and Body) */
+.table-row {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  border-bottom: 1px solid var(--border-color);
+  padding: 0 1rem;
+  box-sizing: border-box;
+  /* Crucial for react-window */
+}
+
+.table-row:last-child {
+  border-bottom: none;
+}
+
+/* Body Rows */
+.table-row:not(.header) {
+  height: 65px;
+  /* Must match ROW_HEIGHT in JS */
+  transition: background-color 0.1s ease-out;
+  font-size: 0.9rem;
+}
+
+.table-row:not(.header):hover {
+  background-color: var(--hover-bg);
+}
+
+/* Header Row */
+.header {
+  height: 50px;
+  font-size: 0.75rem;
+  font-weight: 500;
+  color: var(--text-color-light);
+  text-transform: uppercase;
+  letter-spacing: 0.02em;
+  background-color: #f9fafb;
+  /* Light grey header */
+}
+
+.sticky-header {
+  position: sticky;
+  top: 0;
+  z-index: 1;
+}
+
+.header .cell {
+  cursor: pointer;
+  -webkit-user-select: none;
+  /* For Safari */
+  user-select: none;
+  /* Standard */
+}
+
+.header .cell:hover {
+  color: var(--text-color);
+}
+
+/* Cell Definitions */
+.cell {
+  padding: 0 0.75rem;
+  box-sizing: border-box;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: flex;
+  align-items: center;
+}
+
+.cell-checkbox {
+  flex: 0 0 40px;
+  padding-left: 0;
+}
+
+input[type='checkbox'] {
+  width: 16px;
+  height: 16px;
+  border-radius: 4px;
+}
+
+.cell-customer {
+  flex: 2 1 220px;
+  gap: 0.75rem;
+}
+
+.avatar {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+}
+
+.customer-details {
+  display: flex;
+  flex-direction: column;
+}
+
+.customer-name {
+  font-weight: 500;
+  color: var(--text-color);
+}
+
+.customer-phone {
+  font-size: 0.85rem;
+  color: var(--text-color-light);
+}
+
+.cell-score {
+  flex: 0.5 1 60px;
+}
+
+.cell-email {
+  flex: 2 1 200px;
+  color: var(--text-color);
+}
+
+.cell-last-message {
+  flex: 2 1 200px;
+  color: var(--text-color-light);
+}
+
+.cell-added-by {
+  flex: 1.5 1 150px;
+  gap: 0.5rem;
+  color: var(--text-color);
+}
+
+.added-by-icon {
+  width: 16px;
+  height: 16px;
+  opacity: 0.7;
+}
