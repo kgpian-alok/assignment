@@ -1,4 +1,5 @@
-import React, { memo, useEffect, useState } from "react";
+import React, { memo } from "react";
+import * as ReactWindow from "react-window"; // <-- Use namespace import
 
 const formatDate = (isoString) =>
   new Date(isoString).toLocaleString("en-US", {
@@ -85,28 +86,22 @@ const Row = memo(({ index, style, data }) => {
 });
 
 export const CustomerTable = ({ customers, sortConfig, requestSort }) => {
-  const [FixedSizeList, setFixedSizeList] = useState(null);
   const ROW_HEIGHT = 65;
 
-  // ✅ dynamically import react-window once, safely
-  useEffect(() => {
-    let mounted = true;
-    import("react-window").then((mod) => {
-      if (mounted) setFixedSizeList(() => mod.FixedSizeList);
-    });
-    return () => {
-      mounted = false;
-    };
-  }, []);
+  // Remove the dynamic import and state logic
+  // const [FixedSizeList, setFixedSizeList] = useState(null);
+  // useEffect(() => { ... }, []);
 
-  if (!FixedSizeList) {
-    return <div className="loading">Loading table...</div>;
+  // Add a check in case the import failed
+  if (!ReactWindow || !ReactWindow.FixedSizeList) {
+    return <div className="loading">Loading table component...</div>;
   }
 
   return (
     <div className="table-container">
       <TableHeader sortConfig={sortConfig} requestSort={requestSort} />
-      <FixedSizeList
+      {/* Access FixedSizeList from the imported namespace */}
+      <ReactWindow.FixedSizeList
         height={window.innerHeight * 0.8}
         itemCount={customers.length}
         itemSize={ROW_HEIGHT}
@@ -114,7 +109,7 @@ export const CustomerTable = ({ customers, sortConfig, requestSort }) => {
         itemData={{ list: customers }}
       >
         {Row}
-      </FixedSizeList>
+      </ReactWindow.FixedSizeList>
     </div>
   );
 };
